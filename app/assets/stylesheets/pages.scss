@@ -1,0 +1,78 @@
+// Place all the styles related to the pages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/*styling for about us page*/
+
+#aboutContainer {
+  position: relative;
+  margin-bottom: 10%;
+}
+
+#aboutImg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.aboutOverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgba(1,1,1,.7);
+  h1 {
+    text-align: center;
+  }
+}
+
+.aboutTxt {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  p {
+    font-size: 1.5em;
+    line-height: 1.5;
+  }
+}
+
+#aboutContainer:hover .aboutOverlay {
+  opacity: 1;
+}
+
+#show {
+  display: none;
+}
+
+/*at smaller screens */
+
+
+@media only screen and (max-width: 900px) {
+#hide2 {
+	display: none;
+}
+}
+
+@media only screen and (max-width: 550px) {
+  #hide {
+    display: none;
+  }
+  #hide2 {
+    display: none;
+  }
+  #show {
+    display: block;
+  }
+  #aboutTxt p {
+    font-size: .8em;
+    line-height: .8;
+  }
+} 
