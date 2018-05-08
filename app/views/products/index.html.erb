@@ -1,0 +1,100 @@
+<title>Products | Grocer Store</title>
+   <% if user_signed_in? %>
+        <% if current_user.admin? %>
+            <%= link_to 'Add New Product', new_product_path, class:"btn btnRed right"%>
+        <% end %>
+  <% end %>
+  <% if @products.count==0%>
+    <h1>No products returned</h1>
+    <% elsif @products.count==1 %>
+      <h1>Showing <%= @products.count%> Product</p></span></h1>
+  <% else %>
+    <h1>Showing <%= @products.count%> Products</p></span></h1>
+  <% end %>
+  <div class="category">
+    <li class="search">
+      <%= form_tag(products_path, :method => "get", id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search products" %>
+      <%= submit_tag "Search"%>
+      <% end %>
+    </li>
+    <!--=<li class="dropdown">
+      <button class="dropdown-toggle" data-toggle="dropdown" href="#">Or List by Category
+      <span class="caret"></span></button>
+      <ul class="dropdown-menu" >
+        <li class="text-center"><%= link_to "-- All Products --", products_path(@products)%></li>
+        <% Category.all.each do|category| %>
+        <li class="<%= 'active' if params[:category] == category.name %>">
+          <%= link_to category.name, products_path(category: category.name)%>
+        </li>
+        <% end %>
+      </ul>
+    </li>PROBLEM WITH DROPDOWN FUNCTIONING-->
+  </div>
+
+  <div class="row">
+    <% if @products.count ==0 %>
+      <% if params[:search]%>
+        <h3>Your search for "<%= params[:search]%>" returned no results</h3>
+        <h4>Try using product names</h4>
+       <% else %>
+        <h3>There are currently no products stocked in this category. Please check back soon!</h3> 
+      <% end %>
+    <% else %>
+    <% if params[:category]%>
+      <h3><i>Only showing Category: </i> <%= params[:category] %></h3>
+    <% end %>
+      <% if params[:search] %>
+        <%if params[:search] == ""%>
+          <h3>Listing All Products</h3>
+        <% else %>
+          <h3>Search results for: "<%= params[:search]%>"<h3>
+        <% end%>     
+      <% end %>
+    <% @products.each do |product| %>
+    <div class="col-sm-4 thumbnail text-center padding">
+      <h3><%= product.title %></h3>
+      <%= link_to (image_tag product.image_url, :style=> "height:150px"), product, class:"img-responsive" %>
+      <div class="avg-rating" data-score="<%= product.reviews.average(:rating)%>"></div>
+      <h3>€ <%= product.price %></h3>
+      <%= link_to "View Product", product, class:"btn btnRed" %>
+      <a class="btn btnRed" href="/cart/<%= product.id %>">Add to Cart</a>
+      <div class="row">
+       <% if user_signed_in? %>
+        <% if current_user.admin? %>
+          <%= link_to 'Show', product, class:"btn btnRed" %>
+          <%= link_to 'Edit', edit_product_path(product), class:"btn btnRed" %>
+          <%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btnRed" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
+  </div>     
+  <br>
+  <div class="text-center">
+    <%= will_paginate @products, renderer: BootstrapPagination::Rails, inner_window: 1, outer_window: 0 %>
+  </div>
+
+<script>
+  $('.review-rating').raty({
+    readOnly:true,
+    score: function() {
+      return $(this).attr('data-score');
+    },
+    path: '/assets/'
+  });
+</script>
+
+<script>
+ $('.avg-rating').raty({
+    path: '/assets/',
+    readOnly:true,
+    score: function(){
+      return($(this).attr('data-score'));
+    }
+  })
+
+$('.avg-rating').raty('reload');
+</script>

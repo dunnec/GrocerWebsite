@@ -1,0 +1,22 @@
+<div class="row">
+	<div class="col-sm-4"></div>
+	<div class="col-sm-4 box shadow">
+		<h3>Rate Product</h3>
+		<%= link_to (image_tag @product.image_url, :style=> "height:75px"), @product, class:"img-responsive"%>
+		<p> Rating: <%= @product.title %> </p>
+		<%= simple_form_for([@product, @product.reviews.build]) do |f| %>
+			<div id="rating">
+				<label>Your Rating</label>
+			</div>
+			<%= f.submit "Submit Rating", class:"btn btnRed"%>
+		<% end %>
+	</div>
+	<div class="col-sm-4"></div>
+</div>
+
+<script>
+	$('#rating').raty({
+		path: '/assets/',
+		scoreName: 'review[rating]'
+	});
+</script>

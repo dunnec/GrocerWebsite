@@ -1,0 +1,55 @@
+<title>Your Cart | Grocer Store</title>
+<% if @cart.empty? %> 
+  <h1 class="pageTitle">Your Cart is Empty!</h1>
+  <%= link_to "Continue Shopping", products_path, class:"btn btnRed", style:"margin-left:44%" %>
+<% else %>
+<h1 class="pageTitle">Your Cart</h1>
+<% total = 0 %>
+<table class="cart">
+<tr>
+  <td class="legend" colspan="2" style="text-align: left;padding-left: 25px">Item</td>
+  <td class="legend">Price</td>
+  <td class="legend">Qty</td>
+  <td class="legend">Edit</td>
+  <td class="legend">Item Total</td>
+  <!--<td class="legend">Remove</td>-->
+</tr>
+
+<% @cart.each do |id, quantity| %>
+<% product = Product.find_by_id(id) %>
+<tr>
+<td>
+  <div class="image">
+    <%= link_to (image_tag product.image_url, :style => "height:80px"), product %>
+  </div>
+</td>
+<td class="title"><%= product.title %></td>
+<td class="price"><%= product.price %></td>
+<td class="quantity"><%= quantity %><br /></td>
+<td class="edit"><%= link_to "+", cart_increase_path(:id => product), method: :post, class:"btn btnRed" %><%= link_to "-", cart_reduce_path(:id => product), method: :post, class:"btn btnRed" %></td> 
+<td class="price"><%= number_to_currency(quantity * product.price, unit: "€") %></td>
+<!--<td class="remove"><%= link_to "X", cart_remove_path(:id => product), method: :delete, class:"btn btnRed" %>-->
+</tr>
+<% total += quantity * product.price %>
+<% end %>
+
+<tr>
+  <td colspan="5">
+    <div class="total" style="text-align: left;padding-left: 25px">Order Total:</div>
+  </td>
+<td>
+  <div class="price"><%= number_to_currency(total, unit: "€") %></div>
+</td>
+</tr>    
+</table>
+
+<p>
+  <%= link_to "Continue Shopping", products_path, class:"btn btnRed" %>
+  <%= link_to "Clear Cart", cart_clear_path, data: {confirm: "Are you sure?"}, class:"btn btnRed" %>
+  <% if user_signed_in? %>
+    <%= link_to "Checkout", checkout_path, method: :post, data: {confirm: "Ready to Purchase?"},class:"btn btnRed" %>
+  <% else %>
+    <%= link_to "Checkout", new_user_session_path,data: {confirm: "Please Login to Continue"}, class:"btn btnRed" %>
+  <% end %>
+</p>
+<% end %>

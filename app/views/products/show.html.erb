@@ -1,0 +1,57 @@
+<head>
+  <title><%= @product.title %> | Grocer Store</title>
+</head>
+<div class="container">
+  <div class="row shadow">
+    <div class="col-sm-4 text-center">
+      <br/>
+      <br/>
+      <%= link_to (image_tag @product.image_url, :style=> "height:300px"), @product %>     
+        <div class="avg-rating" data-score="<%= @average_review %>"></div>
+        <% if @product.reviews.count == 1 %>
+           <h6>Based on <%= @product.reviews.count %> review</h6>
+          <% else %>
+            <h6>Based on <%= @product.reviews.count %> reviews</h6>
+          <% end %>
+          <%= link_to "Rate Product", new_product_review_path(@product), class: "btn btnRed"%>
+        </div>
+        <div class="sol-sm-8 text-center">
+          <br/>
+          <br/>
+          <br/>
+          <h2><%= @product.title %></h2>
+          <h5>Category: <%= @product.category.name %></h5>
+          <p><%= @product.desc %></p>
+          <h3> € <%= @product.price %> </h3>
+          <a class="btn btnRed" href="/cart/<%= @product.id %>">Add to Cart</a>
+          <% if user_signed_in? %>
+              <% if current_user.admin? %>
+                <%= link_to 'Edit', edit_product_path(@product), class:"btn btnRed" %>
+              <% end %>
+          <% end %> |
+          <%= link_to 'Back', products_path, class:"btn btnRed" %>
+        </div>
+    </div>
+</div>
+
+<script>
+  $('.review-rating').raty({
+    readOnly:true,
+    score: function() {
+      return $(this).attr('data-score');
+    },
+    path: '/assets/'
+  });
+</script>
+
+<script>
+ $('.avg-rating').raty({
+    path: '/assets/',
+    readOnly:true,
+    score: function(){
+      return($(this).attr('data-score'));
+    }
+  })
+
+$('.avg-rating').raty('reload');
+</script>

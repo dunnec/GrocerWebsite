@@ -1,0 +1,13 @@
+<div class="row">
+	<div class="col-sm-4"></div>
+	<div class="col-sm-4 box shadow">
+		<h3>Edit Rating</h3>
+		<%= link_to (image_tag @product.image_url, :style=> "height:75px"), @product, class:"img-responsive"%>
+		<p> Rating: <%= @product.title %> </p>
+		<%= simple_form_for([@product, @review]) do |f| %>
+			<%= f.input :rating %>
+			<%= f.button :submit, label:"Update Rating"%>
+		<% end %>
+	</div>
+	<div class="col-sm-4"></div>
+</div>
