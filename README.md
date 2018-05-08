@@ -1,2 +1,25 @@
-# GrocerWebsite
-Ruby on Rails website. User can browse and search fro a list of products, or organise them by category. User must sign up/in to rate products. They can add products to their card, or change quantity. Admin has CRUD functionality on admin account
+# README
+
+This README would normally document whatever steps are necessary to get the
+application up and running.
+
+Things you may want to cover:
+
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
+# grocer
